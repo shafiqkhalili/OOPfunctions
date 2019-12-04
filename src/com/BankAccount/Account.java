@@ -1,9 +1,9 @@
 package com.BankAccount;
 
 public class Account {
-    private double balance;
     private static int nrOfAccounts = 0;
-    private String name;
+    protected double balance;
+    protected String name;
 
     public Account() {
         this.balance = 0;
@@ -15,43 +15,50 @@ public class Account {
         this.nrOfAccounts++;
     }
 
-    public Account(double balance, String name) {
+    public Account( String name,double balance) {
         this.balance = balance;
         this.name = name;
     }
 
-    public void deposit(double balance) {
-        this.balance += balance;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public static int getNrOfAccount() {
+    protected static int getNrOfAccount() {
         return nrOfAccounts;
     }
 
-    public double withdraw(double balance) {
-        if (this.balance >= balance && balance > 0) {
-            this.balance -= balance;
-            return balance;
-        }
-        double withdrawBalance = this.balance;
-        this.balance = 0;
-        return withdrawBalance;
+    protected void deposit(double balance) {
+        this.balance += balance;
     }
 
-    public String getName() {
+    protected double getBalance() {
+        return balance;
+    }
+
+    protected void withdraw(double balance) {
+        if (this.balance >= balance && this.balance > 0) {
+            this.balance -= balance;
+        }
+    }
+
+    protected String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    protected void transferTo(Account accountFrom,Account accountTo, double amount) {
+        if (amount < accountFrom.getBalance()) {
+            accountTo.deposit(amount);
+        }
+    }
+
+    protected void setName(String name) {
+
         this.name = name;
     }
 
+    @Override
     public String toString() {
-        return "Name='" + name + '\'' + " \nBalance: " + getBalance();
+        return "Account{\n" +
+                "balance=" + balance +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
 
